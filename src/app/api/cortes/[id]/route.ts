@@ -166,3 +166,4 @@ export async function DELETE(
     return NextResponse.json({ error: 'Error al eliminar el corte' }, { status: 500 })
   }
 }
+export const dynamic = 'force-dynamic'
