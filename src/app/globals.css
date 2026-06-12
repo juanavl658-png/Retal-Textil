@@ -1,0 +1,242 @@
+/* src/app/globals.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   VARIABLES DE DISEÑO
+   Paleta: fondos fríos slate + acento índigo-violeta + verde esmeralda
+   para métricas positivas y ámbar/rojo para alertas
+   ============================================================ */
+:root {
+  --bg-base:       #0f1117;
+  --bg-surface:    #161b27;
+  --bg-card:       #1c2333;
+  --bg-card-hover: #1f2840;
+  --bg-input:      #141926;
+  --border:        #2a3448;
+  --border-focus:  #5264f5;
+
+  --text-primary:  #f0f4ff;
+  --text-secondary:#8b9ab8;
+  --text-muted:    #4f5d78;
+
+  --accent:        #5264f5;
+  --accent-light:  #7a91fa;
+  --accent-dim:    rgba(82,100,245,0.12);
+
+  --success:       #10b981;
+  --success-dim:   rgba(16,185,129,0.12);
+  --warning:       #f59e0b;
+  --warning-dim:   rgba(245,158,11,0.12);
+  --danger:        #ef4444;
+  --danger-dim:    rgba(239,68,68,0.12);
+
+  --radius-sm:     6px;
+  --radius-md:     10px;
+  --radius-lg:     14px;
+  --radius-xl:     20px;
+
+  --shadow-card:   0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
+  --shadow-modal:  0 20px 60px rgba(0,0,0,0.6);
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-surface); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* ============================================================
+   COMPONENTES BASE
+   ============================================================ */
+@layer components {
+
+  /* Cards */
+  .card {
+    @apply rounded-xl border;
+    background: var(--bg-card);
+    border-color: var(--border);
+    box-shadow: var(--shadow-card);
+  }
+
+  /* Inputs */
+  .input-base {
+    @apply w-full rounded-lg px-3 py-2.5 text-sm outline-none transition-all duration-150;
+    background: var(--bg-input);
+    border: 1.5px solid var(--border);
+    color: var(--text-primary);
+  }
+  .input-base::placeholder { color: var(--text-muted); }
+  .input-base:focus {
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px var(--accent-dim);
+  }
+  .input-base:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  /* Labels */
+  .label {
+    @apply block text-xs font-medium mb-1.5;
+    color: var(--text-secondary);
+    letter-spacing: 0.02em;
+  }
+
+  /* Botones */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed select-none;
+  }
+  .btn-primary {
+    @apply btn;
+    background: var(--accent);
+    color: #fff;
+  }
+  .btn-primary:hover:not(:disabled) {
+    background: var(--accent-light);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(82,100,245,0.4);
+  }
+  .btn-secondary {
+    @apply btn;
+    background: transparent;
+    border: 1.5px solid var(--border);
+    color: var(--text-secondary);
+  }
+  .btn-secondary:hover:not(:disabled) {
+    border-color: var(--accent);
+    color: var(--text-primary);
+  }
+  .btn-danger {
+    @apply btn;
+    background: var(--danger-dim);
+    color: var(--danger);
+    border: 1.5px solid rgba(239,68,68,0.2);
+  }
+  .btn-danger:hover:not(:disabled) {
+    background: var(--danger);
+    color: #fff;
+  }
+  .btn-success {
+    @apply btn;
+    background: var(--success);
+    color: #fff;
+  }
+  .btn-success:hover:not(:disabled) {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+
+  /* Badges */
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium;
+  }
+  .badge-green  { background: var(--success-dim); color: var(--success); }
+  .badge-red    { background: var(--danger-dim);  color: var(--danger); }
+  .badge-amber  { background: var(--warning-dim); color: var(--warning); }
+  .badge-blue   { background: var(--accent-dim);  color: var(--accent-light); }
+
+  /* Separador */
+  .divider {
+    @apply w-full;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* Alerta banner */
+  .alert-banner {
+    @apply flex items-start gap-3 rounded-xl p-4 text-sm;
+  }
+  .alert-danger  { background: var(--danger-dim);  color: var(--danger);  border: 1px solid rgba(239,68,68,0.2); }
+  .alert-warning { background: var(--warning-dim); color: var(--warning); border: 1px solid rgba(245,158,11,0.2); }
+  .alert-success { background: var(--success-dim); color: var(--success); border: 1px solid rgba(16,185,129,0.2); }
+  .alert-info    { background: var(--accent-dim);  color: var(--accent-light); border: 1px solid rgba(82,100,245,0.2); }
+
+  /* KPI card */
+  .kpi-card {
+    @apply card p-5 flex flex-col gap-1;
+  }
+
+  /* Tabla */
+  .table-base {
+    @apply w-full text-sm;
+    border-collapse: collapse;
+  }
+  .table-base th {
+    @apply px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+  }
+  .table-base td {
+    @apply px-3 py-3;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+  }
+  .table-base tr:hover td {
+    background: var(--bg-card-hover);
+    color: var(--text-primary);
+  }
+
+  /* Spinner */
+  .spinner {
+    @apply inline-block rounded-full border-2 animate-spin;
+    border-color: var(--border);
+    border-top-color: var(--accent);
+  }
+
+  /* Nav link */
+  .nav-link {
+    @apply flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-150;
+    color: var(--text-secondary);
+  }
+  .nav-link:hover { color: var(--text-primary); background: var(--bg-card); }
+  .nav-link.active {
+    color: var(--text-primary);
+    background: var(--accent-dim);
+    border-left: 2px solid var(--accent);
+  }
+}
+
+/* ============================================================
+   ANIMACIONES
+   ============================================================ */
+@keyframes fadeIn   { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp  { from { transform: translateY(8px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes pulse-border { 0%,100% { border-color: var(--danger); } 50% { border-color: transparent; } }
+
+.animate-fade-in  { animation: fadeIn  0.25s ease; }
+.animate-slide-up { animation: slideUp 0.25s ease; }
+
+/* ============================================================
+   RECHARTS: tema oscuro
+   ============================================================ */
+.recharts-cartesian-axis-tick-value { fill: var(--text-muted) !important; font-size: 11px; }
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical   line { stroke: var(--border) !important; }
+.recharts-tooltip-wrapper .recharts-default-tooltip {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-md) !important;
+  color: var(--text-primary) !important;
+}

@@ -1,0 +1,104 @@
+// =============================================================
+// PRISMA SCHEMA — Sistema de Gestión de Retal Textil
+// Base de datos: PostgreSQL (Supabase)
+// =============================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model TipoTela {
+  id           Int      @id @default(autoincrement())
+  nombre       String   @unique @db.VarChar(100)
+  composicion  String   @db.VarChar(100)
+  anchoUtil    Decimal  @db.Decimal(5, 2)
+  gramajeMin   Int
+  gramajeMax   Int
+  activo       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  cortes       Corte[]
+  @@map("tipo_telas")
+}
+
+model Proveedor {
+  id        Int      @id @default(autoincrement())
+  nombre    String   @unique @db.VarChar(150)
+  activo    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  cortes    Corte[]
+  @@map("proveedores")
+}
+
+model Operario {
+  id        Int      @id @default(autoincrement())
+  nombre    String   @unique @db.VarChar(150)
+  activo    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  cortes    Corte[]
+  @@map("operarios")
+}
+
+model MesaCorte {
+  id        Int      @id @default(autoincrement())
+  nombre    String   @unique @db.VarChar(50)
+  activo    Boolean  @default(true)
+  cortes    Corte[]
+  @@map("mesas_corte")
+}
+
+model ReferenciaPrenda {
+  id       Int     @id @default(autoincrement())
+  nombre   String  @db.VarChar(50)
+  talla    String  @db.VarChar(5)
+  areaM2   Decimal @db.Decimal(5, 3)
+  @@unique([nombre, talla])
+  @@map("referencias_prendas")
+}
+
+model Corte {
+  id                      Int      @id @default(autoincrement())
+  fechaCorte              DateTime @db.Date
+  departamento            String   @db.VarChar(50)
+  mesaCorteId             Int
+  mesaCorte               MesaCorte @relation(fields: [mesaCorteId], references: [id])
+  operarioId              Int
+  operario                Operario  @relation(fields: [operarioId], references: [id])
+  tipoTelaId              Int
+  tipoTela                TipoTela  @relation(fields: [tipoTelaId], references: [id])
+  proveedorId             Int
+  proveedor               Proveedor @relation(fields: [proveedorId], references: [id])
+  loteTela                String   @db.VarChar(100)
+  referenciaPrenda        String   @db.VarChar(50)
+  tallaPrenda             String   @db.VarChar(5)
+  largoTelaM              Decimal  @db.Decimal(8, 2)
+  anchoTelaM              Decimal  @db.Decimal(5, 2)
+  lineasTela              Int
+  gramajeGm2              Int
+  areaPrendaM2            Decimal  @db.Decimal(6, 3)
+  areaTotalDisponibleM2   Decimal  @db.Decimal(10, 3)
+  prendasPorLinea         Int
+  totalPrendas            Int
+  areaConsumidaM2         Decimal  @db.Decimal(10, 3)
+  retalGeneradoM2         Decimal  @db.Decimal(10, 3)
+  pctRetal                Decimal  @db.Decimal(5, 2)
+  pctAprovechamiento      Decimal  @db.Decimal(5, 2)
+  pctReciclable           Decimal  @db.Decimal(5, 2)
+  kgRetalGenerado         Decimal  @db.Decimal(10, 3)
+  destinoRetal            String   @db.VarChar(20)
+  alertaRetal             Boolean  @default(false)
+  alertaAprovechamiento   Boolean  @default(false)
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+  @@index([fechaCorte])
+  @@index([operarioId])
+  @@index([tipoTelaId])
+  @@index([mesaCorteId])
+  @@index([proveedorId])
+  @@map("cortes")
+}
