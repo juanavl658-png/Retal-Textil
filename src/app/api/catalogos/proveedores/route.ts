@@ -40,3 +40,4 @@ export async function POST(req: NextRequest): Promise<NextResponse<ApiResponse>>
     return NextResponse.json({ error: 'Error al crear el proveedor' }, { status: 500 })
   }
 }
+export const dynamic = 'force-dynamic'

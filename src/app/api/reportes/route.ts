@@ -375,3 +375,4 @@ export async function GET(req: NextRequest): Promise<NextResponse<ApiResponse>> 
     return NextResponse.json({ error: 'Error al generar el reporte' }, { status: 500 })
   }
 }
+export const dynamic = 'force-dynamic'

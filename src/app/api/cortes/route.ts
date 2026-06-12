@@ -193,3 +193,4 @@ export async function POST(req: NextRequest): Promise<NextResponse<ApiResponse>>
     )
   }
 }
+export const dynamic = 'force-dynamic'

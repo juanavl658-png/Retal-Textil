@@ -137,3 +137,4 @@ function formatFecha(fecha: Date): string {
 function fechaHoy(): string {
   return new Date().toISOString().split('T')[0]
 }
+export const dynamic = 'force-dynamic'

@@ -261,3 +261,4 @@ export async function GET(req: NextRequest): Promise<NextResponse<ApiResponse<Da
     )
   }
 }
+export const dynamic = 'force-dynamic'

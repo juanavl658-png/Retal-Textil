@@ -37,3 +37,4 @@ export async function GET(): Promise<NextResponse<ApiResponse<Catalogos>>> {
     )
   }
 }
+export const dynamic = 'force-dynamic'
